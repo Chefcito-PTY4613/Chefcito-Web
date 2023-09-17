@@ -1,0 +1,11 @@
+//importacion abstracts
+@import "abstracts/variables","abstracts/mixins" ;
+
+//importacion base
+@import "base/base";
+
+//importacion layouts
+@import "layout/layout","layout/header","layout/mainContent";
+
+//importacion components
+@import "components/components"

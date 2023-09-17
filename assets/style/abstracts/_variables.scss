@@ -1,0 +1,43 @@
+:root {
+  // Coffe Theme
+  &.light-mode {
+    // Colors
+    --c-back: #fff0d0;
+    --c-back_2: #fffaeb;
+    --c-font: #301f01;
+    --c-font_2: #775700;
+    --c-link: #a70000;
+    --c-select: #dddc89;
+    // Colors icons
+    --c-i-a: #e3c4ad;
+    --c-i-b: #dca780;
+    --c-i-c: #a07250;
+  }
+  // dark Theme
+  &.dark-mode {
+    // Colors
+    --c-back: #222627;
+    --c-back_2: #0a0000;
+    --c-font: #ffffff;
+    --c-font_2: #fff2d6;
+    --c-link: #FFF8E8;
+    --c-select: #4C463A;
+    // Colors icons
+    --c-i-a: #e3c4ad;
+    --c-i-b: #dca780;
+    --c-i-c: #a07250;
+  }
+  // Pixel sizes
+  --header-h: 40px;
+  --mx-w: 1000px;
+  --space-1: 32px;
+  --space-2: 24px;
+  --space-3: 16px;
+  --space-4: 8px;
+  --space-5: 4px;
+}
+$space-1:var(--space-1);
+$space-2:var(--space-2);
+$space-3:var(--space-3);
+$space-4:var(--space-4);
+$space-5:var(--space-5);

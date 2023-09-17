@@ -1,13 +1,8 @@
 <template>
-    <div>
-      <header>
-        <nav>
-          <NuxtLink to="/">home</NuxtLink>
-          <NuxtLink to="/login">login</NuxtLink>
-        </nav>
-      </header>
+    <div class="layout">
+      <MoleculeNavBar></MoleculeNavBar>
       <!-- Output page -->
-      <main class="container">
+      <main class="main">
         <slot />
       </main>
     </div>

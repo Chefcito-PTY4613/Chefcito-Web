@@ -1,0 +1,8 @@
+.main{
+    flex-grow: 1;
+    padding: $space-1 8px $space-2 8px;
+    margin: var(--header-h) 0 0 0;
+    min-height: calc(100% - var(--header-h));
+    width: 100%;
+    max-width: var(--mx-w);
+}

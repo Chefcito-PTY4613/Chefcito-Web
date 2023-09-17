@@ -1,0 +1,9 @@
+.login__form{
+    @include container($space-2,$space-3);
+    @include borderR($space-4);
+    margin: auto;
+    max-width: 400px;
+    &-btn{
+        margin: 0 auto;
+    }
+}

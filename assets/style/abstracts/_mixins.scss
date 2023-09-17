@@ -1,0 +1,66 @@
+// Estilo scrollbar
+
+@mixin borderR($border){
+  border-radius: $border;
+  -webkit-border-radius: $border;
+  -moz-border-radius: $border;
+  -ms-border-radius: $border;
+  -o-border-radius: $border;
+}
+@mixin scrollBar() {
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    @include borderR(var(--px-low));
+}
+
+  &::-webkit-scrollbar-track {
+    background: rgba(100, 100, 100, 0.1);
+    @include borderR(var(--px-low));
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(100, 100, 100, 0.2);
+    @include borderR(var(--px-low));
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 100, 100, 0.3);
+  }
+}
+@mixin btn {
+  @include borderR(var(--px-low));
+  padding: var(--px-min) var(--px-low);
+  color: var(--c-link);
+  border: 1px solid var(--c-link);
+  &:hover {
+    color: var(--c-back_2);
+    background-color: var(--c-link);
+  }
+}
+@mixin flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@mixin flex_b {
+  @include flex();
+  justify-content: space-between;
+}
+@mixin flex_a {
+  @include flex();
+  justify-content: space-around;
+}
+@mixin flex_e {
+  @include flex();
+  justify-content: space-evenly;
+}
+@mixin container($sp1,$sp2) {
+  box-shadow: 0 0 2px var(--c-link);
+  padding: $sp1 $sp2;
+}
+@mixin transparent-color($color, $alpha) {
+  $rgba-color: rgba($color, $alpha);
+  background-color: $rgba-color;
+}
