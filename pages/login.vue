@@ -2,26 +2,26 @@
 // definePageMeta({
 //   middleware: 'auth'
 // })
+const config = useRuntimeConfig();
 
 import { useUserStore } from "@/stores/user";
+
 useHead({ title: "LogIn" });
 const pass = ref("");
 const mail = ref("");
-let error = ref("");
+let alert = ref("");
 
-const dataFetch = useResp();
 const userStore = useUserStore();
 
 async function login() {
-  const resp = await dataFetch.fetchData({
-    path: "login",
-    method: "POST",
-    headers: {},
+  const { data, error } = await useFetch(`${config.public.backEnd}login`, {
+    method:'post',
     body: { mail: mail.value, password: pass.value },
   });
-  if (resp?.msg) error.value = resp.msg;
+  if(error.value !== null) return alert.value = error.value.data.msg;
+  userStore.set(data.value as { user: { userType: any }; token: object }||null);
+  navigateTo('/')
 
-  userStore.set(resp);
 }
 </script>
 <template>
@@ -40,7 +40,7 @@ async function login() {
         type="password"
         placeholder="******"
       ></AtomInput>
-      {{ error }}
+      {{ alert }}
       <button @click="login()" class="login__form-btn">Login</button>
     </div>
   </section>

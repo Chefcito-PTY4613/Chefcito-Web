@@ -1,6 +1,9 @@
 <script setup>
 const colorMode = useColorMode();
+console.log(colorMode.preference);
+console.log(colorMode.value);
 const color = ref(colorMode.preference);
+
 const change = () => {
   const newVal = colorMode.preference == "dark" ? "light" : "dark";
   colorMode.preference = newVal;
@@ -9,8 +12,9 @@ const change = () => {
 </script>
 <template>
   <button class="header__nav-barBtn" @click="change">
+    {{ color }}
     <svg
-    v-if="color === 'dark'"
+      v-if="color === 'dark'"
       width="24"
       height="24"
       viewBox="0 0 24 24"
@@ -25,7 +29,7 @@ const change = () => {
       />
     </svg>
     <svg
-    v-if="color === 'light'"
+      v-if="color === 'light'"
       width="24"
       height="24"
       viewBox="0 0 24 24"

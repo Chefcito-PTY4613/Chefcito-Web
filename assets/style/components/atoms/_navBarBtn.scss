@@ -1,5 +1,11 @@
 .header {
+  &__nav-buttons {
+    display: flex;
+    &:last-child {
+      margin: $space-5 0 $space-5 0;
+    }
+  }
   &__nav-barBtn {
-    margin: 4px 0;
+    margin: $space-5 0 $space-5 $space-4;
   }
 }

@@ -1,5 +1,9 @@
-export default function useResp() {
-  interface MyRoutesOps {
+
+type userRoutes = "admin" | "waiter" | "finance" | "chef" | "store" ;
+
+export  {userRoutes};
+export default function useMyRoutes() {
+  interface IRoutesOps {
     admin: Array<number>;
     waiter: Array<number>;
     finance: Array<number>;
@@ -12,10 +16,11 @@ export default function useResp() {
     path: string;
   }
   const state = reactive<{
-    routes: { [key: number]: MyRoutes };
-    routesOps: MyRoutesOps;
+    routes: { [key: number]: MyRoutes } ;
+    routesOps: IRoutesOps;
   }>({
     routes: {
+      // Define las rutas con sus iconos, nombres y rutas
       1: {
         icon: "👥",
         name: "Manejo de usuarios",
@@ -53,19 +58,22 @@ export default function useResp() {
       },
     },
     routesOps: {
-      admin: [1,2,3,4,5,6,7],
-      waiter: [2, 3],
-      finance: [4],
-      chef: [5],
-      store: [7],
+      // Define opciones de rutas para diferentes tipos de usuarios
+      "admin": [1,2,3,4,5,6,7],
+      "waiter": [2, 3],
+      "finance": [4],
+      "chef": [5],
+      "store": [7],
     },
   });
 
-  type userRoutes = "admin" | "waiter" | "finance" | "chef" | "store";
 
-  const getMyRoutes = ()=>{
-
-  };
+  // Define una función para obtener las rutas según el tipo de usuario
+  const getMyRoutes = (userType: userRoutes): Array<MyRoutes> =>
+    state.routesOps[userType].reduce((ac, cu) => {
+      ac.push(state.routes[cu]);
+      return ac;
+    }, []);
 
   return {
     res: state.routesOps,

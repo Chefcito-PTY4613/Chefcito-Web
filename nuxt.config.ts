@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true }
-  ,
+  devtools: { enabled: true },
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
@@ -18,6 +17,11 @@ export default defineNuxtConfig({
   },
   pinia: {
     autoImports: ['defineStore', 'acceptHMRUpdate'],
+  },
+  runtimeConfig:{
+    public:{
+      backEnd:'https://chefcito-back-production.up.railway.app/'
+    }
   },
   app:{
     head:{
