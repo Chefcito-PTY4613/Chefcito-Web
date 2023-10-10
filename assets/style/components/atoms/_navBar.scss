@@ -15,22 +15,6 @@
     :last-child {
       margin: 0;
     }
-    .router-link-active {
-      position: relative;
-      color: var(--c-font);
-      &::after {
-        display: block;
-        position: absolute;
-        content: "";
 
-        background: var(--c-link);
-
-        width: 100%;
-        height: 2px;
-
-        left: 0;
-        bottom: 0;
-      }
-    }
   }
 }

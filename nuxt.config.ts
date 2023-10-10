@@ -4,13 +4,17 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
+    '@nuxtjs/tailwindcss',
   ],
   colorMode: {
     preference: 'light',
-    fallback: 'light'
+    fallback: 'light',
+    classPrefix:'',
+    classSuffix:''
   },
   css: [
     '@/assets/style/main.scss',
+    '@/assets/css/tailwind.css',
   ],
   imports: {
     dirs: ['./stores'],
@@ -30,4 +34,21 @@ export default defineNuxtConfig({
       ]
     }
   },
+  // components: [
+  //   {
+  //     path: '~/components/ui',
+  //     extensions: ['.vue'],
+  //     prefix: 'Ui'
+  //   },
+  //   {
+  //     path: '~/components/atom',
+  //     extensions: ['.vue'],
+  //     prefix: 'Atom'
+  //   },
+  //   {
+  //     path: '~/components/molecules',
+  //     extensions: ['.vue'],
+  //     prefix: 'Molecules'
+  //   },
+  // ],
 })

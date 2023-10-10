@@ -4,4 +4,5 @@ useHead({title:'Home'})
 <template>
         <h1>home</h1>
         <MoleculeImageSlider></MoleculeImageSlider>
+        
 </template>  
