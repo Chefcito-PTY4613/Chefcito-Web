@@ -4,13 +4,17 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
+    '@nuxtjs/tailwindcss',
   ],
   colorMode: {
     preference: 'light',
-    fallback: 'light'
+    fallback: 'light',
+    classPrefix:'',
+    classSuffix:''
   },
   css: [
     '@/assets/style/main.scss',
+    '@/assets/css/tailwind.css',
   ],
   imports: {
     dirs: ['./stores'],
@@ -21,6 +25,7 @@ export default defineNuxtConfig({
   runtimeConfig:{
     public:{
       backEnd:'https://chefcito-back-production.up.railway.app/'
+      //backEnd:'http://localhost:4000/'
     }
   },
   app:{
@@ -30,4 +35,24 @@ export default defineNuxtConfig({
       ]
     }
   },
+  plugins:[
+    {src:'./plugin/qrcode.ts', mode:'client'}
+  ]
+  // components: [
+  //   {
+  //     path: '~/components/ui',
+  //     extensions: ['.vue'],
+  //     prefix: 'Ui'
+  //   },
+  //   {
+  //     path: '~/components/atom',
+  //     extensions: ['.vue'],
+  //     prefix: 'Atom'
+  //   },
+  //   {
+  //     path: '~/components/molecules',
+  //     extensions: ['.vue'],
+  //     prefix: 'Molecules'
+  //   },
+  // ],
 })

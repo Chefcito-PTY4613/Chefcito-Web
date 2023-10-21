@@ -21,16 +21,21 @@ watch(user,()=>{
 })
 </script>
 <template>
-  <header class="header">
-    <div class="header__container">
-      <nav class="header__nav-bar">
+  <header class="fixed h-10 h-header bg-background flex w-full items-center justify-center drop-shadow-[0_0_2px_hsl(var(--foreground))]">
+    <div class="w-full max-w-[1000px] flex justify-between items-center relative px-2 py-0">
+      <nav class="flex">
         <nuxt-link to="/">Home</nuxt-link>
-        <nuxt-link v-for="rt in links" key="rt" :to="rt.path">{{ rt.icon }}{{ rt.name }}</nuxt-link>
+
+        <nuxt-link v-for="rt in links" key="rt" :to="rt.path">
+          {{ rt.icon }}
+          {{ rt.name }}
+        </nuxt-link>
       </nav>
-      <div class="header__nav-buttons">
+      <div class="flex">
         <AtomThemeButton></AtomThemeButton>
         <AtomInOutButton></AtomInOutButton>
       </div>
     </div>
   </header>
 </template>
+ 

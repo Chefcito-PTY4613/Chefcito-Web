@@ -26,22 +26,27 @@ async function login() {
 </script>
 <template>
   <section class="login">
-    <h1 class="">Chefcito Trabajadores</h1>
+    <h1 class="text-xl">Chefcito Trabajadores</h1>
     <div class="login__form">
-      <AtomInput
+      <UiLabel>Correo</UiLabel>
+      <UiInput
         v-model="mail"
-        label="Correo"
         type="email"
         placeholder="ejemplo@gmail.com"
-      ></AtomInput>
-      <AtomInput
+      ></UiInput>
+      <br>
+      <UiLabel>Contraseña</UiLabel>
+      <UiInput
         v-model="pass"
-        label="Contraseña"
         type="password"
-        placeholder="******"
-      ></AtomInput>
+        placeholder="*************"
+      ></UiInput>
       {{ alert }}
-      <button @click="login()" class="login__form-btn">Login</button>
+      <br>
+      <div class="flex justify-center">
+
+        <UiButton variant="outline" @click="login()" >Login</UiButton>
+      </div>
     </div>
   </section>
 </template>

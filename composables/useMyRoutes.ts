@@ -22,8 +22,8 @@ export default function useMyRoutes() {
     routes: {
       // Define las rutas con sus iconos, nombres y rutas
       1: {
-        icon: "👥",
-        name: "Manejo de usuarios",
+        icon: "👨‍💻",
+        name: "Usuarios",
         path: "/user-manager",
       },
       2: {
