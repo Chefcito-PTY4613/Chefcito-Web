@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  :root{
+    --radius: 0.5rem;
+  }
   :root.light {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -32,8 +35,6 @@
     --destructive-foreground: 210 40% 98%;
 
     --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
   }
   :root.dark {
     --background: 222.2 84% 4.9%;
@@ -70,10 +71,16 @@
 @layer base {
   * {
     @apply border-border;
+
+  }
+  *::selection {
+    background: hsl(var(--accent-foreground));
+    color: hsl(var(--accent));
   }
   body {
     @apply bg-background text-foreground;
   }
+
 }
 .router-link-active {
   position: relative;
