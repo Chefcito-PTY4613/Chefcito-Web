@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
 const {
-  value='https://example.com',
-  size = 128,
+  value='https://chefcito-web.vercel.app/',
+  size = 128
 } = defineProps<{
   value: string;
   size: number;
@@ -11,6 +11,6 @@ const {
 </script>
 <template>
   <div>
-    <QRCode class="rounded-md" :value="value" :size="size" foreground="#ffffff" background="#000000"></QRCode>
+    <QRCode class="rounded-md" :value="value" :size="size"  foreground="#ffffff" background="#000000"></QRCode>
   </div>
 </template>
