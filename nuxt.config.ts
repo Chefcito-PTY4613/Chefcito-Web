@@ -24,8 +24,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig:{
     public:{
-      backEnd:'https://chefcito-back-production.up.railway.app/'
-      //backEnd:'http://localhost:4000/'
+      //backEnd:'https://chefcito-back-production.up.railway.app/'
+      backEnd:'http://localhost:4000/'
     }
   },
   app:{
@@ -36,23 +36,7 @@ export default defineNuxtConfig({
     }
   },
   plugins:[
-    {src:'./plugin/qrcode.ts', mode:'client'}
+    {src:'./plugin/qrcode.ts', mode:'client'},
+   {src:'./plugin/socketio.ts'},
   ]
-  // components: [
-  //   {
-  //     path: '~/components/ui',
-  //     extensions: ['.vue'],
-  //     prefix: 'Ui'
-  //   },
-  //   {
-  //     path: '~/components/atom',
-  //     extensions: ['.vue'],
-  //     prefix: 'Atom'
-  //   },
-  //   {
-  //     path: '~/components/molecules',
-  //     extensions: ['.vue'],
-  //     prefix: 'Molecules'
-  //   },
-  // ],
 })

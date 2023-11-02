@@ -5,6 +5,8 @@ import { ActiveReservation, Table } from "@/lib/types";
 import { transforDateTime } from "@/lib/utils.rata";
 import { orderTypesStore } from "@/stores/orderTypes";
 
+const { proxy } = getCurrentInstance();
+
 const { set, getOrderTypes } = orderTypesStore();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
@@ -40,50 +42,95 @@ const activeReservation = async (table: string) => {
   reservation.value[table] = data;
 };
 
+const forceEnd = async (id: string, table: string) => {
+  console.log(`${config.public.backEnd}sale/pay/forced/${id}`);
+  const data = await fetch(`${config.public.backEnd}sale/pay/forced/${id}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${userStore.getUser.token}`,
+    },
+  })
+    .then((data) => data.json())
+    .then((data) => data);
+  if (data?.msg)
+    if (data.msg == "Venta realizada") {
+      tables.value = tables.value.filter(({ _id }) => !(table === _id));
+    }
+};
+
+proxy.$socket.on("table:save", (table: Table) => {
+
+  const indexT = tables.value.findIndex(({_id})=>table._id ===_id);
+  if (table.active) {
+    tables.value = [...tables.value];
+  } 
+  if(indexT === -1) {
+    tables.value.push(table);
+    activeReservation(table._id);
+  }
+});
+
+
 onMounted(() => {
   getTables();
 });
 </script>
 <template>
   <div class="grid grid-cols-1 w-full max-w-2xl">
-    <MoleculeAcordionTables
-      v-for="mesa in tables"
-      :key="mesa._id"
-      :table-id="mesa._id"
-      :table-num="mesa.num"
-      :table-persons="mesa.size"
-      :table-time="transforDateTime(mesa.updatedAt)"
-    >
-      <p v-if="!reservation[mesa._id]">No se encuentran datos</p>
-      <article class="flex justify-between items-center" v-for="order in reservation[mesa._id].orders" :key="order._id">
+    <div v-for="mesa in tables">
+      <MoleculeAcordionTables
+        :key="mesa._id"
+        :table-id="mesa._id"
+        :table-num="mesa.num"
+        :table-persons="mesa.size"
+        :table-time="transforDateTime(mesa.updatedAt)"
+      >
+        <p v-if="!reservation[mesa._id]">No se encuentran datos</p>
+        <article
+          class="flex justify-between items-center py-2"
+          v-for="order in reservation[mesa._id].orders"
+          :key="order._id"
+        >
+          <div class="h-full max-h-14 overflow-clip aspect-square rounded-md">
+            <img class="h-full" :src="order.food.img" :alt="order.food.img" />
+          </div>
+          <div>
+            <h3>
+              {{ order.food.name }}
+            </h3>
+            <h3>
+              {{ order.desc }}
+            </h3>
+          </div>
+          <UiSelect id="phoneCode">
+            <UiSelectTrigger class="w-2/5">
+              <UiSelectValue placeholder="Estado" />
+            </UiSelectTrigger>
+            <UiSelectContent>
+              <UiSelectGroup>
+                <UiSelectLabel>Estado de la orden</UiSelectLabel>
+                <UiSelectItem
+                  v-for="orderType in getOrderTypes"
+                  :key="orderType._id"
+                  :value="orderType._id"
+                >
+                  {{ orderType.name }}
+                </UiSelectItem>
+              </UiSelectGroup>
+            </UiSelectContent>
+          </UiSelect>
+        </article>
+        <br />
         <div>
-          <h3>
-            {{ order.food.name }}
-          </h3>
-          <img
-            class="h-12 max-w-full rounded-md"
-            :src="order.food.img"
-            :alt="order.food.img"
-          />
+          <UiButton
+            variant="default"
+            @click="forceEnd(reservation[mesa._id].sale._id, mesa._id)"
+          >
+            Forzar término
+          </UiButton>
         </div>
-        <UiSelect id="phoneCode">
-          <UiSelectTrigger class="w-2/5">
-            <UiSelectValue placeholder="Estado" />
-          </UiSelectTrigger>
-          <UiSelectContent>
-            <UiSelectGroup>
-              <UiSelectLabel>Estado de la orden</UiSelectLabel>
-              <UiSelectItem
-                v-for="orderType in getOrderTypes"
-                :key="orderType._id"
-                :value="orderType._id"
-              >
-                {{ orderType.name }}
-              </UiSelectItem>
-            </UiSelectGroup>
-          </UiSelectContent>
-        </UiSelect>
-      </article>
-    </MoleculeAcordionTables>
+      </MoleculeAcordionTables>
+      <br />
+    </div>
   </div>
 </template>

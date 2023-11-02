@@ -11,6 +11,6 @@ const {
 </script>
 <template>
   <div>
-    <QRCode class="rounded-md" :value="value" :size="size"  foreground="#ffffff" background="#000000"></QRCode>
+    <QRCode class="rounded-md p-1 bg-slate-50" :value="value" :size="size"  foreground="#000000" background="#ffffff"></QRCode>
   </div>
 </template>
