@@ -1,3 +1,9 @@
+export interface PaginationFetch<T> {
+  currentPage?: number;
+  data?: Array<T>;
+  total?: number;
+  totalPages?: number;
+}
 export interface Reservation {
   _id: string;
   table: string;
@@ -28,6 +34,22 @@ export interface Status {
   _id: string
   name: string
 }
+export interface FoodType {
+  _id: string
+  name: string
+  desc: string
+}
+
+export interface Ingredient {
+  _id?: String;
+  id?: String;
+  name?: String;
+  desc?: String;
+  stock?: number;
+  stockFlag?: number;
+  unit?: String;
+}
+
 export interface Order {
   _id: string;
   food: Food;
@@ -49,4 +71,17 @@ export interface Table{
   active: boolean
   createdAt: string
   updatedAt: string
+}
+
+export interface User {
+  active?: boolean;
+  createdAt?: Date;
+  lastName?: string;
+  mail?: string;
+  name?: string;
+  password?: string;
+  updatedAt?: Date;
+  userType?: string;
+  verified?: boolean;
+  _id?: string;
 }

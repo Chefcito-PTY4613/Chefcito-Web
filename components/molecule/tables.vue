@@ -9,10 +9,7 @@ const {needDay = false} = defineProps<{
   needDay:Boolean;
 }>();
 
-
-
 const tables = ref([] as Array<Table>)
-const io = proxy.$socket;
 
 const getTables = async () => {
   const data = (await fetch(`${config.public.backEnd}table`).then((data) =>
@@ -23,9 +20,7 @@ const getTables = async () => {
 function compareByNum(a: Table, b: Table) {
   return a.num - b.num;
 }
-
-io.on('table:save', (table:Table) => {
-  console.log('table:save',table)
+proxy.$socket.on('table:save', (table:Table) => {
   const filterT = tables.value.filter(({_id})=>!(_id === table._id))
   tables.value = [...filterT, table].sort(compareByNum)
 });
@@ -37,7 +32,8 @@ onMounted(() => {
 
 </script>
 <template>
-  <div class="grid grid-cols-3 md:grid-cols-4 gap-8">
+
+  <div  class="grid grid-cols-3 md:grid-cols-4 gap-8">
     <article class="flex w-full flex-col rounded-md max-h-[260px] p-2" 
     v-for="mesa in tables" :key="mesa._id"
     :class="mesa.active?'bg-secondary text-secondary-foreground':'bg-muted text-muted-foreground'">
@@ -57,4 +53,5 @@ onMounted(() => {
       </p>
     </article>
   </div>
+ 
 </template>

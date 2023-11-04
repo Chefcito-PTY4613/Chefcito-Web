@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 import { useUserTypesStore } from "@/stores/userType";
+import { PaginationFetch,User } from "~/lib/types";
 const userStore = useUserStore();
 const { getUserTypes, getUserType, set } = useUserTypesStore();
 
@@ -10,32 +11,18 @@ const userTypes = computed(() => getUserTypes);
 
 const config = useRuntimeConfig();
 
-interface person {
-  active?: boolean;
-  createdAt?: Date;
-  lastName?: string;
-  mail?: string;
-  name?: string;
-  password?: string;
-  updatedAt?: Date;
-  userType?: string;
-  verified?: boolean;
-  _id?: string;
-}
+
 interface HashTable<T> {
   [key: number]: T;
 }
-interface usersFetch {
-  currentPage?: number;
-  customers?: Array<person>;
-  total?: number;
-  totalPages?: number;
-}
 
-const usersHash: HashTable<Array<person>> = {};
-const users = ref([] as Array<person>);
+const usersHash: HashTable<Array<User>> = {};
+const users = ref([] as Array<User>);
 const error = ref(".");
 const name = ref("");
+
+const currPage = ref(1);
+const pages = ref(1);
 
 async function getUsers(page = 1) {
   error.value = ".";
@@ -60,9 +47,10 @@ async function getUsers(page = 1) {
     return;
   }
 
-  const { currentPage, customers, total, totalPages } = usersData as usersFetch;
-
-  users.value = customers ?? [];
+  const { currentPage, data, total, totalPages } = usersData as PaginationFetch<User>;
+  currPage.value = currentPage as number;
+  pages.value = totalPages as number;
+  users.value = data ?? [];
 }
 function clean() {
   name.value = "";
@@ -96,9 +84,23 @@ onMounted(() => {
           </UiTableCell>
           <UiTableCell>{{ item.mail }}</UiTableCell>
           <UiTableCell>{{ getUserType(item.userType).desc ?? "" }}</UiTableCell>
-          <UiTableCell class="text-right"> $250.00 </UiTableCell>
+          <UiTableCell class="text-right"> 
+            {{ item.active ? "Activo" : "Baneado" }} </UiTableCell>
         </UiTableRow>
       </UiTableBody>
     </UiTable>
+    <div class="py-1 h-auto">
+      <UiButton
+        variant="outline"
+        v-for="page in Array.from(
+          { length: pages },
+          (value, index) => index + 1)" :key="`page-${page}`"
+          @click="getUsers(page)"
+          class="py-1 px-2 h-auto mr-2"
+          :class="page==currPage?'bg-secondary':''"
+          >
+        {{ page }}
+      </UiButton>
+    </div>
   </article>
 </template>

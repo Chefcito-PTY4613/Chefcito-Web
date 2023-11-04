@@ -53,7 +53,7 @@ export default function useMyRoutes() {
       },
       7: {
         icon: "🥝",
-        name: "Ingredientes",
+        name: "Comidas",
         path: "/ingredients",
       },
     },

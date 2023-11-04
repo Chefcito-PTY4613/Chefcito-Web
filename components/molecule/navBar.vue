@@ -5,6 +5,16 @@ const myRoutes = useMyRoutes();
 
 const user = computed(()=> userStore.getUser);
 const links = ref([]);
+const header = ref(null);
+const headerSize = ref(800);
+
+
+onUpdated(() => {
+  if (header.value) {
+    const clientWidth = header.value.clientWidth;
+    headerSize.value =  clientWidth;
+  }
+});
 
 
 
@@ -13,6 +23,12 @@ onMounted(() => {
   const userType = user.value == null || user.value == undefined ? null : user.value.userType?.name;
 
   if (userType !== null) links.value = myRoutes.getMyRoutes(userType);}
+
+  window.addEventListener('resize', () => {
+  if (header.value) {
+    const clientWidth = header.value.clientWidth;
+    headerSize.value =  clientWidth;
+  }})
 });
 watch(user,()=>{
   if(Object.keys(user.value).length>5){
@@ -21,14 +37,14 @@ watch(user,()=>{
 })
 </script>
 <template>
-  <header class="fixed h-10 h-header bg-background flex w-full items-center justify-center drop-shadow-[0_0_2px_hsl(var(--foreground))]">
+  <header  ref="header" class="fixed h-10 h-header bg-background flex w-full items-center justify-center drop-shadow-[0_0_2px_hsl(var(--foreground))]">
     <div class="w-full max-w-[1000px] flex justify-between items-center relative px-2 py-0">
       <nav class="flex">
-        <nuxt-link to="/">Home</nuxt-link>
-
-        <nuxt-link v-for="rt in links" key="rt" :to="rt.path">
+        <nuxt-link to="/"  :class="headerSize>800?'':'mr-4'" >Home</nuxt-link>
+        <nuxt-link v-for="rt in links" :class="headerSize>800?'':'mr-4'" key="rt" :to="rt.path">
+      
           {{ rt.icon }}
-          {{ rt.name }}
+          {{ headerSize>800?rt.name:'' }}
         </nuxt-link>
       </nav>
       <div class="flex">

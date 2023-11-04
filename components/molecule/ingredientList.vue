@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
-import { useUserTypesStore } from "@/stores/userType";
-import { PaginationFetch,User } from "~/lib/types";
 const userStore = useUserStore();
-const { getUserTypes, getUserType, set } = useUserTypesStore();
+import { unitTypesStore } from "@/stores/unitTypes";
+import { PaginationFetch, Ingredient } from "~/lib/types";
+const {getUnitType, getUnitTypes,set} = unitTypesStore();
+if (getUnitTypes.length == 0) set();
 
-if (getUserTypes.length == 0) set();
-
-const userTypes = computed(() => getUserTypes);
+const unitTypes = computed(() => getUnitTypes);
+console.log(getUnitType("64fb92e4a1ed589a9e04bd2b"))
 
 const config = useRuntimeConfig();
 
@@ -16,17 +16,18 @@ interface HashTable<T> {
   [key: number]: T;
 }
 
-const usersHash: HashTable<Array<User>> = {};
-const users = ref([] as Array<User>);
+const usersHash: HashTable<Array<Ingredient>> = {};
+const dataItems = ref([] as Array<Ingredient>);
+
 const error = ref(".");
 const name = ref("");
 
 const currPage = ref(1);
 const pages = ref(1);
 
-async function getUsers(page = 1) {
+async function getData(page = 1) {
   error.value = ".";
-  if (usersHash[page] !== undefined) users.value = usersHash[page];
+  if (usersHash[page] !== undefined) dataItems.value = usersHash[page];
 
   let search = "";
   if (name.value !== "") search = `&name=${name.value}`;
@@ -35,31 +36,29 @@ async function getUsers(page = 1) {
   }
 
   //btoa()
-  const usersData = await fetch(
-    `${config.public.backEnd}user?page=${page}${search}`,
+  const totalData = await fetch(
+    `${config.public.backEnd}ingredient?page=${page}${search}`,
     {
       headers: { Authorization: `Bearer ${userStore.getUser.token}` },
     }
   ).then((data) => data.json());
 
-  if (usersData === null) {
+  if (totalData === null) {
     error.value = ", hubo un error de carga.";
     return;
   }
 
-  const { currentPage, data, totalPages } = usersData as PaginationFetch<User>;
-
+  const { currentPage, data, totalPages } = totalData as PaginationFetch<Ingredient>;
   currPage.value = currentPage as number;
   pages.value = totalPages as number;
-
-  users.value = data ?? [];
+  dataItems.value = data ?? [];
 }
 function clean() {
   name.value = "";
-  getUsers();
+  getData();
 }
 onMounted(() => {
-  getUsers();
+  getData();
 });
 </script>
 <template>
@@ -74,20 +73,18 @@ onMounted(() => {
       <UiTableHeader>
         <UiTableRow>
           <UiTableHead> Nombre </UiTableHead>
-          <UiTableHead>Mail</UiTableHead>
-          <UiTableHead>Tipo</UiTableHead>
+          <UiTableHead>Descripción</UiTableHead>
           <UiTableHead class="text-right"> Actividad </UiTableHead>
         </UiTableRow>
       </UiTableHeader>
       <UiTableBody>
-        <UiTableRow v-for="item in users" key="item._id">
+        <UiTableRow v-for="item in dataItems" key="item._id">
           <UiTableCell class="font-medium">
-            {{ `${item.name} ${item.lastName}` }}
+            {{ `${item.name}` }}
           </UiTableCell>
-          <UiTableCell>{{ item.mail }}</UiTableCell>
-          <UiTableCell>{{ getUserType(item.userType).desc ?? "" }}</UiTableCell>
-          <UiTableCell class="text-right">
-            {{ item.active ? "Activo" : "Baneado" }}
+          <UiTableCell>{{ item.desc }}</UiTableCell>
+          <UiTableCell class="text-right"> 
+            {{  `${item.stock} ${getUnitType(item.unit)?.name}` }} <br/> alerta en {{ `${item.stockFlag} ${getUnitType(item.unit)?.name}` }} 
           </UiTableCell>
         </UiTableRow>
       </UiTableBody>
@@ -98,7 +95,7 @@ onMounted(() => {
         v-for="page in Array.from(
           { length: pages },
           (value, index) => index + 1)" :key="`page-${page}`"
-          @click="getUsers(page)"
+          @click="getData(page)"
           class="py-1 px-2 h-auto mr-2"
           :class="page==currPage?'bg-secondary':''"
           >

@@ -43,7 +43,6 @@ const activeReservation = async (table: string) => {
 };
 
 const forceEnd = async (id: string, table: string) => {
-  console.log(`${config.public.backEnd}sale/pay/forced/${id}`);
   const data = await fetch(`${config.public.backEnd}sale/pay/forced/${id}`, {
     method: "PUT",
     headers: {
@@ -74,6 +73,7 @@ proxy.$socket.on("table:save", (table: Table) => {
 onMounted(() => {
   getTables();
 });
+
 </script>
 <template>
   <div class="grid grid-cols-1 w-full max-w-2xl">
@@ -132,5 +132,10 @@ onMounted(() => {
       </MoleculeAcordionTables>
       <br />
     </div>
+    <div v-if="tables.length === 0">
+    <h1>
+      No se encuentran mesas ocupadas
+    </h1>
+  </div>
   </div>
 </template>

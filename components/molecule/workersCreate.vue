@@ -75,7 +75,6 @@ const createWorker = async () => {
     Authorization: `Bearer ${userStore.getUser.token}`,
     "Content-Type": "application/json",
   };
-  console.log(data, headers);
   await fetch(`${config.public.backEnd}worker`, {
     method: "POST",
     headers,
