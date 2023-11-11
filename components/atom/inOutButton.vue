@@ -5,6 +5,8 @@ const logged = computed(() => !(userStore.getUser.name === undefined));
 
 const logOut = () => {
   userStore.del();
+  
+  navigateTo("/login");
 };
 const logIn = () => {
   navigateTo("/login");

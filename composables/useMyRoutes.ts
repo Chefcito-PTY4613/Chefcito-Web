@@ -2,6 +2,7 @@
 type userRoutes = "admin" | "waiter" | "finance" | "chef" | "store" ;
 
 export  {userRoutes};
+
 export default function useMyRoutes() {
   interface IRoutesOps {
     admin: Array<number>;
@@ -66,7 +67,6 @@ export default function useMyRoutes() {
       "store": [7],
     },
   });
-
 
   // Define una función para obtener las rutas según el tipo de usuario
   const getMyRoutes = (userType: userRoutes): Array<MyRoutes> =>

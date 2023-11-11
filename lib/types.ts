@@ -41,13 +41,12 @@ export interface FoodType {
 }
 
 export interface Ingredient {
-  _id?: String;
-  id?: String;
-  name?: String;
-  desc?: String;
-  stock?: number;
-  stockFlag?: number;
-  unit?: String;
+  _id: String;
+  name: String;
+  desc: String;
+  stock: number;
+  stockFlag: number;
+  unit: String;
 }
 
 export interface Order {

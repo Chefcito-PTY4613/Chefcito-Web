@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 const userStore = useUserStore();
-import { unitTypesStore } from "@/stores/unitTypes";
-import { PaginationFetch, Ingredient } from "~/lib/types";
-const { getUnitType, getUnitTypes, set } = unitTypesStore();
-if (getUnitTypes.length == 0) set();
+import { foodTypesStore } from "@/stores/foodTypes";
+import { PaginationFetch, Food } from "~/lib/types";
+const { getFoodType, getFoodTypes, set } = foodTypesStore();
+if (getFoodTypes.length == 0) set();
+
 const { socket } = useSocket();
 
 const config = useRuntimeConfig();
 
-const dataItems = ref([] as Array<Ingredient>);
+const dataItems = ref([] as Array<Food>);
 
 const error = ref(".");
 const name = ref("");
@@ -28,7 +29,7 @@ async function getData(page = 1) {
   Array.from({ length: dataItems.value.length }, () => dataItems.value.pop());
 
   const totalData = await fetch(
-    `${config.public.backEnd}ingredient?page=${page}${search}`,
+    `${config.public.backEnd}food/pagination?page=${page}${search}`,
     {
       headers: { Authorization: `Bearer ${userStore.getUser.token}` },
     }
@@ -39,8 +40,7 @@ async function getData(page = 1) {
     return;
   }
 
-  const { currentPage, data, totalPages } = totalData as PaginationFetch<Ingredient>;
-
+  const { currentPage, data, totalPages } = totalData as PaginationFetch<Food>;
   currPage.value = currentPage as number;
   pages.value = totalPages as number;
   data?.map((el) => dataItems.value.push(el));
@@ -50,19 +50,15 @@ function clean() {
   getData();
 }
 
-onMounted(() => {
-  getData();
-});
-
-socket.on("ingredient:update", (data: Ingredient) => {
+socket.on('food:save',(data: Food) => {
   const dataFilter = dataItems.value.filter(({ _id }) => _id !== data._id);
   dataItems.value = dataFilter
   dataItems.value.unshift(data)
-});
+})
 
-socket.on("ingredient:changeStock", (ingredient: Ingredient) => {
-  const dataIndex = dataItems.value.findIndex(({ _id }) => _id !== data._id);
-  dataItems.value[dataIndex] = ingredient
+
+onMounted(() => {
+  getData();
 });
 </script>
 <template>
@@ -76,46 +72,50 @@ socket.on("ingredient:changeStock", (ingredient: Ingredient) => {
       <div class="col-span-1"></div>
       <UiButton class="col-span-1" @click="getData()"> Buscar </UiButton>
       <UiButton class="col-span-1" @click="clean()"> Limpiar </UiButton>
-      <AtomIngredientAdd></AtomIngredientAdd>
+      <AtomFoodAdd></AtomFoodAdd>
     </div>
     <UiTable>
-      <UiTableCaption>Lista de ingredientes{{ error }}</UiTableCaption>
+      <UiTableCaption>Lista de comidas{{ error }}</UiTableCaption>
       <UiTableHeader>
         <UiTableRow>
+          <UiTableHead> Imagen </UiTableHead>
+          <UiTableHead> Tipo </UiTableHead>
           <UiTableHead> Nombre </UiTableHead>
           <UiTableHead>Descripción</UiTableHead>
-          <UiTableHead> Stock </UiTableHead>
+          <UiTableHead>Precio</UiTableHead>
           <UiTableHead class="text-right"> Edit </UiTableHead>
         </UiTableRow>
       </UiTableHeader>
       <UiTableBody>
         <UiTableRow v-if="dataItems.length === 0">Cargando datos...</UiTableRow>
         <UiTableRow v-else v-for="item in dataItems" key="item._id">
+          <UiTableCell>
+            <UiAvatar>
+              <UiAvatarImage :src="item.img" alt="@radix-vue" />
+              <UiAvatarFallback>{{ item.name }}</UiAvatarFallback>
+            </UiAvatar>
+          </UiTableCell>
+          <UiTableCell>
+            <p class="py-1 px-2 rounded-sm" :class="''">
+              {{ ` ${getFoodType(item.type)?.name}` }}
+            </p>
+          </UiTableCell>
           <UiTableCell class="font-medium">
             {{ `${item.name}` }}
           </UiTableCell>
           <UiTableCell>{{ item.desc }}</UiTableCell>
-          <UiTableCell class="text-right">
-            <p
-              class="py-1 px-2 rounded-sm"
-              :class="
-                item.stock < item.stockFlag
-                  ? 'text-destructive bg-destructive-foreground'
-                  : ''
-              "
-            >
-              {{ `${item.stock} ${getUnitType(item.unit)?.name}` }}
-            </p>
-          </UiTableCell>
+          <UiTableCell>${{ item.price }}</UiTableCell>
+
           <UiTableCell class="flex justify-end align-middle">
-            <AtomIngredientEdit
-              :flag="item.stockFlag"
+            <AtomFoodEdit
               :id="item._id"
               :name="item.name"
-              :type="getUnitType(item.unit)?.name||''"
-              :typeId="item.unit"
               :desc="item.desc"
-            ></AtomIngredientEdit>
+              :img="item.img"
+              :price="item.price"
+              :type="getFoodType(item.type)?.name||''"
+              :typeId="item.type"
+            ></AtomFoodEdit>
           </UiTableCell>
         </UiTableRow>
       </UiTableBody>

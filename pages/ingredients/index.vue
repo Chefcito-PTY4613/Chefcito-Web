@@ -3,17 +3,17 @@
   <UiTabs default-value="ingredient" class="max-w-full w-[800px]">
     <UiTabsList class="gap-1.5">
       <UiTabsTrigger value="ingredient"> Ingredientes</UiTabsTrigger>
-      <!--<UiTabsTrigger value="food"> Comidas </UiTabsTrigger>-->
+      <UiTabsTrigger value="food"> Comidas </UiTabsTrigger>
     </UiTabsList>
 
     <UiTabsContent value="ingredient">
       <MoleculeIngredientList></MoleculeIngredientList>
     </UiTabsContent>
-    <!--
+    
       <UiTabsContent value="food">
-        <MoleculeUsersList></MoleculeUsersList>
+        <MoleculeFoodList></MoleculeFoodList>
       </UiTabsContent>
-    -->
+    
     <UiSeparator></UiSeparator>
   </UiTabs>
 </template>

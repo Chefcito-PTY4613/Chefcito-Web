@@ -37,6 +37,5 @@ export default defineNuxtConfig({
   },
   plugins:[
     {src:'./plugin/qrcode.ts', mode:'client'},
-   {src:'./plugin/socketio.ts'},
   ]
 })

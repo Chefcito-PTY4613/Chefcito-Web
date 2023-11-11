@@ -2,8 +2,9 @@
 import { transforDate,transforDateTime } from "@/lib/utils.rata";
 import { Table } from "~/lib/types";
 
+const {socket} = useSocket()
+
 const config = useRuntimeConfig();
-const {proxy} = getCurrentInstance()
 
 const {needDay = false} = defineProps<{
   needDay:Boolean;
@@ -20,7 +21,9 @@ const getTables = async () => {
 function compareByNum(a: Table, b: Table) {
   return a.num - b.num;
 }
-proxy.$socket.on('table:save', (table:Table) => {
+
+
+socket.on('table:save', (table:Table) => {
   const filterT = tables.value.filter(({_id})=>!(_id === table._id))
   tables.value = [...filterT, table].sort(compareByNum)
 });

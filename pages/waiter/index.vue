@@ -5,7 +5,9 @@ import { ActiveReservation, Table } from "@/lib/types";
 import { transforDateTime } from "@/lib/utils.rata";
 import { orderTypesStore } from "@/stores/orderTypes";
 
-const { proxy } = getCurrentInstance();
+
+const {socket} = useSocket()
+
 
 const { set, getOrderTypes } = orderTypesStore();
 const userStore = useUserStore();
@@ -57,8 +59,7 @@ const forceEnd = async (id: string, table: string) => {
     }
 };
 
-proxy.$socket.on("table:save", (table: Table) => {
-
+socket.on("table:save", (table: Table) => {
   const indexT = tables.value.findIndex(({_id})=>table._id ===_id);
   if (table.active) {
     tables.value = [...tables.value];
