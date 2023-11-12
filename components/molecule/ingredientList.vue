@@ -60,9 +60,9 @@ socket.on("ingredient:update", (data: Ingredient) => {
   dataItems.value.unshift(data)
 });
 
-socket.on("ingredient:changeStock", (ingredient: Ingredient) => {
-  const dataIndex = dataItems.value.findIndex(({ _id }) => _id !== data._id);
-  dataItems.value[dataIndex] = ingredient
+socket.on("ingredient:changeStock", (data: Ingredient) => {
+  const dataIndex = dataItems.value.findIndex(({ _id }) => _id === data._id);
+  if(dataIndex>0)dataItems.value[dataIndex] = data;
 });
 </script>
 <template>

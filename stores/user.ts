@@ -34,7 +34,7 @@ export const useUserStore = defineStore("user", {
       );
       if (error.value !== null) return console.log(error);
 
-      const types = JSON.parse(data.value) as Array<{
+      const types = JSON.parse(data.value as string) as Array<{
         _id: string;
         name: string;
         desc: string;

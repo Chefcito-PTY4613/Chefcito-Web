@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user";
-const userStore = useUserStore();
-import { foodTypesStore } from "@/stores/foodTypes";
 import { PaginationFetch, Food } from "~/lib/types";
+
+const userStore = useUserStore();
+const { setFood } = foodStore()
+
+import { foodTypesStore } from "@/stores/foodTypes";
 const { getFoodType, getFoodTypes, set } = foodTypesStore();
 if (getFoodTypes.length == 0) set();
 
 const { socket } = useSocket();
-
 const config = useRuntimeConfig();
 
 const dataItems = ref([] as Array<Food>);
-
 const error = ref(".");
 const name = ref("");
 const currPage = ref(1);
@@ -45,9 +45,17 @@ async function getData(page = 1) {
   pages.value = totalPages as number;
   data?.map((el) => dataItems.value.push(el));
 }
+
 function clean() {
   name.value = "";
   getData();
+}
+
+const receta = async(data:Food)=>{
+  setFood(data)
+  await navigateTo({ path: `/ingredients/${data._id}` })
+
+  
 }
 
 socket.on('food:save',(data: Food) => {
@@ -90,10 +98,7 @@ onMounted(() => {
         <UiTableRow v-if="dataItems.length === 0">Cargando datos...</UiTableRow>
         <UiTableRow v-else v-for="item in dataItems" key="item._id">
           <UiTableCell>
-            <UiAvatar>
-              <UiAvatarImage :src="item.img" alt="@radix-vue" />
-              <UiAvatarFallback>{{ item.name }}</UiAvatarFallback>
-            </UiAvatar>
+            <img :id="`img-${item._id}`" class="rounded-3xl" loading="lazy" :src="item.img"  />
           </UiTableCell>
           <UiTableCell>
             <p class="py-1 px-2 rounded-sm" :class="''">
@@ -105,8 +110,10 @@ onMounted(() => {
           </UiTableCell>
           <UiTableCell>{{ item.desc }}</UiTableCell>
           <UiTableCell>${{ item.price }}</UiTableCell>
-
-          <UiTableCell class="flex justify-end align-middle">
+          <UiTableCell class="grid grid-rows-2 gap-2 align-middle ">
+            <UiButton @click="receta(item)">
+              Receta
+            </UiButton>
             <AtomFoodEdit
               :id="item._id"
               :name="item.name"

@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import { PaginationFetch,User } from "~/lib/types";
+
 import { useUserStore } from "@/stores/user";
 import { useUserTypesStore } from "@/stores/userType";
-import { PaginationFetch,User } from "~/lib/types";
 const userStore = useUserStore();
-const { getUserTypes, getUserType, set } = useUserTypesStore();
 
+const { getUserTypes, getUserType, set } = useUserTypesStore();
 if (getUserTypes.length == 0) set();
 
-const userTypes = computed(() => getUserTypes);
 
 const config = useRuntimeConfig();
 

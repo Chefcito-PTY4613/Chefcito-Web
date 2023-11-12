@@ -96,6 +96,27 @@
   left: 0;
   bottom: 0;
 }
+.transition-image {
+  transition: all 2s ease-in-out;
+}
+.full-embed {
+  view-transition-name: full-embed;
+}
+::view-transition-old(full-embed),
+::view-transition-new(full-embed) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.3s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
 
 .c-scroll{
   overflow: auto;

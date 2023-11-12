@@ -20,6 +20,11 @@ export interface Sale {
   createdAt: string;
   updatedAt: string;
 }
+export interface Process {
+  _id: string
+  name: string
+}
+
 export interface Food {
   _id: string
   name: string
@@ -38,6 +43,13 @@ export interface FoodType {
   _id: string
   name: string
   desc: string
+}
+export interface Recipe {
+  _id: string
+  food: string
+  ingredient: Ingredient
+  process: Process
+  amount: number
 }
 
 export interface Ingredient {

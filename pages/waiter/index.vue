@@ -5,9 +5,7 @@ import { ActiveReservation, Table } from "@/lib/types";
 import { transforDateTime } from "@/lib/utils.rata";
 import { orderTypesStore } from "@/stores/orderTypes";
 
-
 const {socket} = useSocket()
-
 
 const { set, getOrderTypes } = orderTypesStore();
 const userStore = useUserStore();
@@ -24,10 +22,9 @@ const getTables = async () => {
   )) as Array<Table>;
   const actives = data.filter(({ active }) => active == false);
   tables.value = actives;
-
-  actives.forEach((el) => {
-    activeReservation(el._id);
-  });
+  //tables.value = data;
+  //data.forEach((el) => {activeReservation(el._id);});
+  actives.forEach((el) => {activeReservation(el._id);});
 };
 
 const activeReservation = async (table: string) => {
@@ -41,7 +38,7 @@ const activeReservation = async (table: string) => {
   })
     .then((data) => data.json())
     .then((data) => data as ActiveReservation);
-  reservation.value[table] = data;
+    if(!data.msg)reservation.value[table] = data;
 };
 
 const forceEnd = async (id: string, table: string) => {

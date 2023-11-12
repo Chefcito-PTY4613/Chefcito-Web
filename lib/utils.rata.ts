@@ -47,8 +47,8 @@ export async function reduceImageResolution(imageFile: File): Promise<{
       const originalHeight = image.naturalHeight;
 
       const size = Math.min(originalWidth, originalHeight);
-      const newWidth = 500;
-      const newHeight = 500;
+      const newWidth = 1000;
+      const newHeight = 1000;
 
       canvas.width = newWidth;
       canvas.height = newHeight;
@@ -87,7 +87,7 @@ export async function reduceImageResolution(imageFile: File): Promise<{
           }
         },
         "image/webp",
-        0.8
+        1
       );
     };
 

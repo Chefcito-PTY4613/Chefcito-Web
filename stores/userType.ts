@@ -22,7 +22,7 @@ export const useUserTypesStore = defineStore("userTypes", {
       );
       if (error.value !== null) return console.log(error);
 
-      const types = JSON.parse(data.value);
+      const types = JSON.parse(data.value as string);
 
       this.userTypes = types;
     },
