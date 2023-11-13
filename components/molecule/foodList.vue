@@ -53,9 +53,7 @@ function clean() {
 
 const receta = async(data:Food)=>{
   setFood(data)
-  await navigateTo({ path: `/ingredients/${data._id}` })
-
-  
+  await navigateTo({ path: `/ingredients/${data._id}` })  
 }
 
 socket.on('food:save',(data: Food) => {

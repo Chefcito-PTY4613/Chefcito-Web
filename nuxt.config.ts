@@ -24,8 +24,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig:{
     public:{
-      backEnd:'https://chefcito-back-production.up.railway.app/'
-      //backEnd:'http://localhost:4000/'
+      //backEnd:'https://chefcito-back-production.up.railway.app/'
+      backEnd:'http://localhost:4000/'
     }
   },
   app:{

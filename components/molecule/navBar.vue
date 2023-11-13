@@ -50,7 +50,7 @@ watch(user, () => {
     class="fixed h-10 h-header bg-background flex w-full items-center justify-center drop-shadow-[0_0_2px_hsl(var(--foreground))]"
   >
     <div
-      class="w-full max-w-[1000px] flex justify-between items-center relative px-2 py-0"
+      class="w-full max-w-[1000px] flex justify-between items-center relative px-2 py-0 "
     >
       <nav class="flex">
         <nuxt-link to="/" :class="headerSize > 800 ? '' : 'mr-4'"

@@ -17,13 +17,13 @@ const { id, name, desc, img, price, typeId } = defineProps<{
 }>();
 
 const nameEdit = ref(name),
-      descEdit = ref(desc),
-      priceEdit = ref(price),
-      imgEdit: Ref<File | null>  = ref(null),
-      sizeOrg = ref(0),
-      sizeNew = ref(0),
-      typeEdit = ref(typeId),
-      imagePreview = ref(img);
+  descEdit = ref(desc),
+  priceEdit = ref(price),
+  imgEdit: Ref<File | null> = ref(null),
+  sizeOrg = ref(0),
+  sizeNew = ref(0),
+  typeEdit = ref(typeId),
+  imagePreview = ref(img);
 
 const previewImage = (file: File) => {
   const reader = new FileReader();
@@ -53,32 +53,35 @@ const delteImage = () => {
 };
 
 const edit = async () => {
-  
   const formData = new FormData();
   formData.append("id", id);
-  if(nameEdit.value !== '' && nameEdit.value !== name) 
-  formData.append("name", nameEdit.value);
+  if (nameEdit.value !== "" && nameEdit.value !== name)
+    formData.append("name", nameEdit.value);
 
-  if(descEdit.value !== '' && descEdit.value !== desc) 
-  formData.append("desc", descEdit.value);
+  if (descEdit.value !== "" && descEdit.value !== desc)
+    formData.append("desc", descEdit.value);
 
-  if(priceEdit.value > 500 && priceEdit.value !== price) 
-  formData.append("price", `${priceEdit.value}`);
+  if (priceEdit.value > 500 && priceEdit.value !== price)
+    formData.append("price", `${priceEdit.value}`);
 
-  if(typeEdit.value !== '' && typeEdit.value !== typeId) 
-  formData.append("type", typeEdit.value);
-
-  if (imgEdit.value) formData.append("img", imgEdit.value);
-
+  if (typeEdit.value !== "" && typeEdit.value !== typeId)
+    formData.append("type", typeEdit.value);
   
+    if (imgEdit.value) {
+      console.log("🚀 ~ file: foodEdit.vue:71 ~ edit ~ imgEdit.value:")
+      formData.append("img", imgEdit.value)
+    };
 
-await fetch(`${config.public.backEnd}food`, {
-  method: "PUT",
-  headers: { Authorization: `Bearer ${userStore.getUser.token}` },
-  body: formData,
-})
-  .then((data) => data.json())
-  .catch((err) => console.log(err));
+  console.log(imgEdit.value);
+  console.log(formData);
+
+  await fetch(`${config.public.backEnd}food`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${userStore.getUser.token}` },
+    body: formData,
+  })
+    .then((data) => data.json())
+    .catch((err) => console.log(err));
 };
 </script>
 <template>

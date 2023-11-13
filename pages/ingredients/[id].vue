@@ -3,6 +3,7 @@ import { Food, Recipe } from "~/lib/types";
 import { foodStore } from "@/stores/food";
 const config = useRuntimeConfig();
 const userStore = useUserStore();
+const { getUnitType } = unitTypesStore();
 const route = useRoute();
 
 const { getFoodTypes, getFoodType, set } = foodTypesStore();
@@ -13,6 +14,7 @@ const types = computed(() => getFoodTypes);
 const { getFood } = foodStore()
 
 let food: Ref<null | Food> =  ref(null)
+let recipes: Ref<Array<Recipe>> =  ref([])
 
 const getRecipe = async (id:string)=>{
   const data = await fetch(
@@ -21,14 +23,15 @@ const getRecipe = async (id:string)=>{
       headers: { Authorization: `Bearer ${userStore.getUser.token}` },
     }
   ).then((data) => data.json());
-  console.log(data)
+  recipes.value = data
+  console.log("🚀 ~ file: [id].vue:27 ~ getRecipe ~ data:", data)
 }
 
 onMounted(()=> {
-  console.log('getFood: = = = ',route.params.id)
-  console.log('getFood: = = = ',getFood?.name)
-  food.value = getFood
-  if(route.params.id)getRecipe(route.params.id)
+  food.value = (typeof getFood === 'string' ) ? JSON.parse(getFood):getFood
+console.log(food.value)
+
+  if(route.params.id)getRecipe(route.params.id as string)
   })
 </script>
 
@@ -46,6 +49,44 @@ onMounted(()=> {
     <p class="max-w-3xl text-xl mx-auto border-b-2">{{ getFoodType(food.type).name }}</p>
     <br>
     <p class="max-w-3xl mx-auto">{{ food.desc }}</p>
+   <br>
+    <UiTable class="w-full max-w-3xl mx-auto">
+      <UiTableCaption>Receta</UiTableCaption>
+      <UiTableHeader>
+        <UiTableRow>
+          <UiTableHead> Ingrediente </UiTableHead>
+          <UiTableHead>Cantidad</UiTableHead>
+          <UiTableHead>Proceso</UiTableHead>
+          <UiTableHead class="text-right"> Actividad </UiTableHead>
+        </UiTableRow>
+      </UiTableHeader>
+      <UiTableBody>
+        <UiTableRow key="item._id">
+          <UiTableCell class="font-medium">
+          </UiTableCell>
+          <UiTableCell>
+            </UiTableCell>
+          <UiTableCell>
+          
+          </UiTableCell>
+          <UiTableCell class="text-right">
+     
+          </UiTableCell> 
+        </UiTableRow>
+        <UiTableRow v-for="item in recipes" key="item._id">
+          <UiTableCell class="font-medium">
+            {{ `${item.ingredient.name}` }}
+          </UiTableCell>
+          <UiTableCell>{{item.amount}} {{ getUnitType(item.ingredient.unit)?.name }}</UiTableCell>
+          <UiTableCell>
+            {{ item.process.name }}
+          </UiTableCell>
+          <UiTableCell class="text-right">
+            a
+          </UiTableCell> 
+        </UiTableRow>
+      </UiTableBody>
+    </UiTable>
     <br>
   </main>
 </article>
