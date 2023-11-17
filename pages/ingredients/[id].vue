@@ -24,13 +24,11 @@ const getRecipe = async (id:string)=>{
     }
   ).then((data) => data.json());
   recipes.value = data
-  console.log("🚀 ~ file: [id].vue:27 ~ getRecipe ~ data:", data)
+  console.log(data[0])
 }
 
 onMounted(()=> {
   food.value = (typeof getFood === 'string' ) ? JSON.parse(getFood):getFood
-console.log(food.value)
-
   if(route.params.id)getRecipe(route.params.id as string)
   })
 </script>
@@ -61,6 +59,8 @@ console.log(food.value)
         </UiTableRow>
       </UiTableHeader>
       <UiTableBody>
+        <AtomSearchIngredientRecipe></AtomSearchIngredientRecipe>
+        
         <UiTableRow key="item._id">
           <UiTableCell class="font-medium">
           </UiTableCell>

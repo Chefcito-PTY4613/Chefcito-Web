@@ -70,6 +70,7 @@ export interface Order {
 }
 
 export interface ActiveReservation {
+  msg?:string;
   reservation: Reservation;
   sale: Sale;
   orders: Order[];
