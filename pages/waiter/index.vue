@@ -90,9 +90,10 @@ socket.on("table:save", (table: Table) => {
   }
 });
 
-socket.on("updatedOrder",(order: Order)=>{
-  if(orderStatus.value[order._id])orderStatus.value[order._id]=order.status._id
-})
+socket.on("updatedOrder", (order: Order) => {
+  if (orderStatus.value[order._id])
+    orderStatus.value[order._id] = order.status._id;
+});
 
 onMounted(() => {
   getTables();

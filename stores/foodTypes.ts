@@ -31,3 +31,4 @@ export const foodTypesStore = defineStore("foodTypes", {
     state.foodTypes = useLocalStorage("foodTypes", []);
   },
 });
+
