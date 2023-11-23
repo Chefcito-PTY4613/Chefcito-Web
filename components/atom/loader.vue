@@ -8,7 +8,7 @@
 
 <style scoped>
 .splash-screen {
-   background: rgb(253,243,196);
+   background: #fdf3c4;
     width: 100vw;
     height: 100vh;
   position: fixed;
