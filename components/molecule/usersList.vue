@@ -2,6 +2,7 @@
 import { useUserStore } from "@/stores/user";
 import { useUserTypesStore } from "@/stores/userType";
 import { PaginationFetch,User } from "~/lib/types";
+import { delay } from "~/lib/utils.rata";
 const userStore = useUserStore();
 const { getUserTypes, getUserType, set } = useUserTypesStore();
 
@@ -51,8 +52,11 @@ async function getUsers(page = 1) {
 
   currPage.value = currentPage as number;
   pages.value = totalPages as number;
-
-  users.value = data ?? [];
+  if(data)
+  for (const el of data) {
+    users.value.push(el);
+    await delay(80);
+  }
 }
 function clean() {
   name.value = "";
@@ -80,7 +84,7 @@ onMounted(() => {
         </UiTableRow>
       </UiTableHeader>
       <UiTableBody>
-        <UiTableRow v-for="item in users" key="item._id">
+        <UiTableRow v-for="item in users" class="fade-blur" key="item._id">
           <UiTableCell class="font-medium">
             {{ `${item.name} ${item.lastName}` }}
           </UiTableCell>
