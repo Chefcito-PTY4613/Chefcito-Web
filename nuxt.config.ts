@@ -29,7 +29,6 @@ export default defineNuxtConfig({
     }
   },
   app:{
-
     head:{
       htmlAttrs:{
         lang:"es"
