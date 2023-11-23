@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     classSuffix:''
   },
   css: [
-    //'@/assets/style/main.scss',
+    '@/assets/style/main.scss',
     '@/assets/css/tailwind.css',
   ],
   imports: {
