@@ -1,5 +1,6 @@
 <script setup lang="ts">
 useHead({ title: "Mesas Disponibles" });
+
 import { useUserStore } from "@/stores/user";
 import { ActiveReservation, Order, Table } from "@/lib/types";
 import { transforDateTime } from "@/lib/utils.rata";

@@ -29,7 +29,14 @@ export default defineNuxtConfig({
     }
   },
   app:{
+
     head:{
+      htmlAttrs:{
+        lang:"es"
+      },
+      meta:[
+        {name:'description',content:'Chefcito: Sistema de gestión integral para restaurantes, ofreciendo soluciones de administración en roles como administrador, cliente, bodega, finanzas y cocina. Con capacidades avanzadas para la gestión de recursos, control de stock, optimización financiera y operativa, Chefcito facilita la experiencia culinaria con pedidos en mesa y gestión eficiente de órdenes. Incluye módulos web y de escritorio, autenticación segura, reportes en PDF, diseño responsive y está construido sobre Nuxt.js, Sockets.io, Typescript y la mejor de las intenciones'}
+      ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
       ]

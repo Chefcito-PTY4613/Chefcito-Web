@@ -95,8 +95,8 @@ onMounted(() => {
       <UiTableBody>
         <UiTableRow v-if="dataItems.length === 0">Cargando datos...</UiTableRow>
         <UiTableRow v-else v-for="item in dataItems" key="item._id">
-          <UiTableCell>
-            <img :id="`img-${item._id}`" class="rounded-3xl" loading="lazy" :src="item.img"  />
+          <UiTableCell class="min-w-[8rem] min-h-[8rem]">
+            <img :id="`img-${item._id}`" :alt="`imagen de ${item.name}`" class="aspect-square w-[8rem] rounded-3xl" loading="lazy" :src="item.img"  />
           </UiTableCell>
           <UiTableCell>
             <p class="py-1 px-2 rounded-sm" :class="''">

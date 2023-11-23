@@ -1,5 +1,5 @@
 <script setup>
-
+useHead({ title: "User" });
 </script>
 <template>
   

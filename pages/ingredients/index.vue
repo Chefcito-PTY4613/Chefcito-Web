@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+useHead({ title: "Comida" });
+</script>
 <template>
   <UiTabs default-value="ingredient" class="max-w-full w-[800px]">
     <UiTabsList class="gap-1.5">

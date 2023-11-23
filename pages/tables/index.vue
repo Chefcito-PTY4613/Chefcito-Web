@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useHead({ title: "Mesas Disponibles" });
+useHead({ title: "Mesas" });
 
 
 </script>
