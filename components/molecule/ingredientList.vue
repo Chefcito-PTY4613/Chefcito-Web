@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 const userStore = useUserStore();
+import { delay } from "@/lib/utils.rata";
 import { unitTypesStore } from "@/stores/unitTypes";
 import { PaginationFetch, Ingredient } from "~/lib/types";
 const { getUnitType, getUnitTypes, set } = unitTypesStore();
@@ -25,7 +26,7 @@ async function getData(page = 1) {
     search = "";
   }
 
-  Array.from({ length: dataItems.value.length }, () => dataItems.value.pop());
+  dataItems.value.length = 0;
 
   const totalData = await fetch(
     `${config.public.backEnd}ingredient?page=${page}${search}`,
@@ -43,7 +44,11 @@ async function getData(page = 1) {
 
   currPage.value = currentPage as number;
   pages.value = totalPages as number;
-  data?.map((el) => dataItems.value.push(el));
+  if(data)
+  for (const el of data) {
+    dataItems.value.push(el);
+    await delay(80);
+  }
 }
 function clean() {
   name.value = "";
@@ -90,7 +95,7 @@ socket.on("ingredient:changeStock", (data: Ingredient) => {
       </UiTableHeader>
       <UiTableBody>
         <UiTableRow v-if="dataItems.length === 0">Cargando datos...</UiTableRow>
-        <UiTableRow v-else v-for="item in dataItems" key="item._id">
+        <UiTableRow v-else v-for="item in dataItems" class="fade-blur" key="item._id">
           <UiTableCell class="font-medium">
             {{ `${item.name}` }}
           </UiTableCell>

@@ -30,6 +30,8 @@ export const optionals = (
   return toUpdate;
 };
 
+export const delay = (ms:number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export async function reduceImageResolution(imageFile: File): Promise<{
   sizeOrg?: number;
   sizeNew?: number;

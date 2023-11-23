@@ -5,6 +5,7 @@ const userStore = useUserStore();
 const { setFood } = foodStore()
 
 import { foodTypesStore } from "@/stores/foodTypes";
+import { delay } from "~/lib/utils.rata";
 const { getFoodType, getFoodTypes, set } = foodTypesStore();
 if (getFoodTypes.length == 0) set();
 
@@ -25,8 +26,8 @@ async function getData(page = 1) {
   else {
     search = "";
   }
-
-  Array.from({ length: dataItems.value.length }, () => dataItems.value.pop());
+  
+  dataItems.value.length = 0;
 
   const totalData = await fetch(
     `${config.public.backEnd}food/pagination?page=${page}${search}`,
@@ -43,7 +44,12 @@ async function getData(page = 1) {
   const { currentPage, data, totalPages } = totalData as PaginationFetch<Food>;
   currPage.value = currentPage as number;
   pages.value = totalPages as number;
-  data?.map((el) => dataItems.value.push(el));
+
+  if(data)
+  for (const el of data) {
+    dataItems.value.push(el);
+    await delay(80);
+  }
 }
 
 function clean() {
@@ -94,9 +100,9 @@ onMounted(() => {
       </UiTableHeader>
       <UiTableBody>
         <UiTableRow v-if="dataItems.length === 0">Cargando datos...</UiTableRow>
-        <UiTableRow v-else v-for="item in dataItems" key="item._id">
+        <UiTableRow v-else v-for="item in dataItems" key="item._id" class="fade-blur">
           <UiTableCell class="min-w-[8rem] min-h-[8rem]">
-            <img :id="`img-${item._id}`" :alt="`imagen de ${item.name}`" class="aspect-square w-[8rem] rounded-3xl" loading="lazy" :src="item.img"  />
+            <img :id="`img-${item._id}`" :alt="`imagen de ${item.name}`" class="aspect-square w-[8rem] rounded-3xl shadow-md" loading="lazy"  :src="item.img"  />
           </UiTableCell>
           <UiTableCell>
             <p class="py-1 px-2 rounded-sm" :class="''">

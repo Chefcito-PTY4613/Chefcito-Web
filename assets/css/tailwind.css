@@ -134,3 +134,18 @@
 .c-scroll::-webkit-scrollbar-thumb:hover {
   background: rgba(100, 100, 100, 0.3);
 }
+
+@keyframes fadeBlur {
+  from {
+      filter: blur(4px);
+      opacity: .5;
+  }
+  to {
+      filter: blur(0);
+      opacity: 1;
+  }
+}
+
+.fade-blur {
+  animation: fadeBlur 0.5s ease-out;
+}

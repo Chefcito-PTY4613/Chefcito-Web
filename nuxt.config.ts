@@ -39,7 +39,24 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
-        {rel:'preload'}
+        {
+          rel: 'preload',
+        href: '/font/Montserrat-Italic.woff2',
+        as: 'font',
+        type: 'font/woff2'
+        },
+        {
+          rel: 'preload',
+        href: '/font/Montserrat-Medium.woff2',
+        as: 'font',
+        type: 'font/woff2'
+        },
+        {
+          rel: 'preload',
+        href: '/font/Montserrat-SemiBold.woff2',
+        as: 'font',
+        type: 'font/woff2'
+        }
       ]
     },
     pageTransition: {
