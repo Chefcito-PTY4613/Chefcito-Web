@@ -2,7 +2,7 @@
 import { PaginationFetch, Food } from "~/lib/types";
 
 const userStore = useUserStore();
-const { setFood } = foodStore()
+const { setFood } = foodStore();
 
 import { foodTypesStore } from "@/stores/foodTypes";
 import { delay } from "~/lib/utils.rata";
@@ -26,8 +26,6 @@ async function getData(page = 1) {
   else {
     search = "";
   }
-  
-  dataItems.value.length = 0;
 
   const totalData = await fetch(
     `${config.public.backEnd}food/pagination?page=${page}${search}`,
@@ -45,10 +43,16 @@ async function getData(page = 1) {
   currPage.value = currentPage as number;
   pages.value = totalPages as number;
 
-  if(data)
-  for (const el of data) {
-    dataItems.value.push(el);
-    await delay(80);
+  if (data) {
+    const dataLength = dataItems.value.length
+    for (let i = 0; i < dataLength; i++) {
+      dataItems.value.shift();
+      await delay(80);
+    }
+    for (const el of data) {
+      dataItems.value.push(el);
+      await delay(80);
+    }
   }
 }
 
@@ -57,17 +61,16 @@ function clean() {
   getData();
 }
 
-const receta = async(data:Food)=>{
-  setFood(data)
-  await navigateTo({ path: `/ingredients/${data._id}` })  
-}
+const receta = async (data: Food) => {
+  setFood(data);
+  await navigateTo({ path: `/ingredients/${data._id}` });
+};
 
-socket.on('food:save',(data: Food) => {
+socket.on("food:save", (data: Food) => {
   const dataFilter = dataItems.value.filter(({ _id }) => _id !== data._id);
-  dataItems.value = dataFilter
-  dataItems.value.unshift(data)
-})
-
+  dataItems.value = dataFilter;
+  dataItems.value.unshift(data);
+});
 
 onMounted(() => {
   getData();
@@ -100,9 +103,20 @@ onMounted(() => {
       </UiTableHeader>
       <UiTableBody>
         <UiTableRow v-if="dataItems.length === 0">Cargando datos...</UiTableRow>
-        <UiTableRow v-else v-for="item in dataItems" key="item._id" class="fade-blur">
+        <UiTableRow
+          v-else
+          v-for="item in dataItems"
+          key="item._id"
+          class="fade-blur"
+        >
           <UiTableCell class="min-w-[8rem] min-h-[8rem]">
-            <img :id="`img-${item._id}`" :alt="`imagen de ${item.name}`" class="aspect-square w-[8rem] rounded-3xl shadow-md" loading="lazy"  :src="item.img"  />
+            <img
+              :id="`img-${item._id}`"
+              :alt="`imagen de ${item.name}`"
+              class="aspect-square w-[8rem] rounded-3xl shadow-md"
+              loading="lazy"
+              :src="item.img"
+            />
           </UiTableCell>
           <UiTableCell>
             <p class="py-1 px-2 rounded-sm" :class="''">
@@ -114,17 +128,15 @@ onMounted(() => {
           </UiTableCell>
           <UiTableCell>{{ item.desc }}</UiTableCell>
           <UiTableCell>${{ item.price }}</UiTableCell>
-          <UiTableCell class="grid grid-rows-2 gap-2 align-middle ">
-            <UiButton @click="receta(item)">
-              Receta
-            </UiButton>
+          <UiTableCell class="grid grid-rows-2 gap-2 align-middle">
+            <UiButton @click="receta(item)"> Receta </UiButton>
             <AtomFoodEdit
               :id="item._id"
               :name="item.name"
               :desc="item.desc"
               :img="item.img"
               :price="item.price"
-              :type="getFoodType(item.type)?.name||''"
+              :type="getFoodType(item.type)?.name || ''"
               :typeId="item.type"
             ></AtomFoodEdit>
           </UiTableCell>

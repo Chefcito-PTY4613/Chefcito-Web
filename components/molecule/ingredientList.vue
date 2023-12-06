@@ -26,8 +26,6 @@ async function getData(page = 1) {
     search = "";
   }
 
-  dataItems.value.length = 0;
-
   const totalData = await fetch(
     `${config.public.backEnd}ingredient?page=${page}${search}`,
     {
@@ -44,10 +42,17 @@ async function getData(page = 1) {
 
   currPage.value = currentPage as number;
   pages.value = totalPages as number;
-  if(data)
-  for (const el of data) {
-    dataItems.value.push(el);
-    await delay(80);
+
+  if (data) {
+    const dataLength = dataItems.value.length
+    for (let i = 0; i < dataLength; i++) {
+      dataItems.value.shift();
+      await delay(80);
+    }
+    for (const el of data) {
+      dataItems.value.push(el);
+      await delay(80);
+    }
   }
 }
 function clean() {

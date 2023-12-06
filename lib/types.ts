@@ -53,12 +53,12 @@ export interface Recipe {
 }
 
 export interface Ingredient {
-  _id: String;
-  name: String;
-  desc: String;
+  _id: string;
+  name: string;
+  desc: string;
   stock: number;
   stockFlag: number;
-  unit: String;
+  unit: string;
 }
 
 export interface Order {
@@ -84,6 +84,10 @@ export interface Table{
   createdAt: string
   updatedAt: string
 }
+export interface Process{
+  _id: string,
+  name:string,
+}
 
 export interface User {
   active?: boolean;
@@ -96,4 +100,59 @@ export interface User {
   userType?: string;
   verified?: boolean;
   _id?: string;
+}
+
+
+export interface MyRoutes {
+  icon: string;
+  name: string;
+  path: string;
+}
+export interface IRoutesOps {
+  admin: Array<number>;
+  waiter: Array<number>;
+  finance: Array<number>;
+  chef: Array<number>;
+  store: Array<number>;
+}
+
+export interface ChefOrder {
+  _id: string;
+  food: {
+    _id: string;
+    name: string;
+    img: string;
+  };
+  sale: {
+    _id: string;
+    reservation: {
+      _id: string;
+      table: {
+        _id: string;
+        num: number;
+      };
+      user: string;
+      active: boolean;
+      createdAt: string;
+      updatedAt: string;
+    };
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  status: string;
+  desc: string;
+}
+export interface ChefOrderFetching {
+  order: ChefOrder;
+  repit?: number;
+  tableId: string;
+  processResume: string[];
+  recipes: {
+      _id: string;
+      ingredient: string
+      process: string;
+      unit: string;
+      amount: number;
+  }[];
 }

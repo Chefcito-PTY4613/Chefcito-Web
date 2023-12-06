@@ -1,21 +1,13 @@
 
 type userRoutes = "admin" | "waiter" | "finance" | "chef" | "store" ;
 
+import { MyRoutes, IRoutesOps } from "~/lib/types";
+
 export  {userRoutes};
 
 export default function useMyRoutes() {
-  interface IRoutesOps {
-    admin: Array<number>;
-    waiter: Array<number>;
-    finance: Array<number>;
-    chef: Array<number>;
-    store: Array<number>;
-  }
-  interface MyRoutes {
-    icon: string;
-    name: string;
-    path: string;
-  }
+
+  
   const state = reactive<{
     routes: { [key: number]: MyRoutes } ;
     routesOps: IRoutesOps;

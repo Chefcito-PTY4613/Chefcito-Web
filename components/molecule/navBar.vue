@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { MyRoutes } from "~/lib/types";
 const userStore = useUserStore();
 const myRoutes = useMyRoutes();
 
 const user = computed(() => userStore.getUser);
-const links = ref([]);
+const links = ref([] as MyRoutes[]);
 const header = ref(null);
 const headerSize = ref(800);
 
@@ -32,7 +33,6 @@ onMounted(() => {
   });
 });
 watch(user, () => {
-  console.log(user);
   if (Object.keys(user.value).length > 5) {
     const userType =
       user.value == null || user.value == undefined
@@ -47,7 +47,7 @@ watch(user, () => {
 <template>
   <header
     ref="header"
-    class="fixed h-10 h-header bg-background flex w-full items-center justify-center drop-shadow-[0_0_2px_hsl(var(--foreground))]"
+    class="fixed z-50 h-10 h-header bg-background flex w-full items-center justify-center drop-shadow-[0_0_2px_hsl(var(--foreground))] "
   >
     <div
       class="w-full max-w-[1000px] flex justify-between items-center relative px-2 py-0 "

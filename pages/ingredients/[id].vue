@@ -22,7 +22,6 @@ const getRecipe = async (id: string) => {
     headers: { Authorization: `Bearer ${userStore.getUser.token}` },
   }).then((data) => data.json());
   recipes.value = data;
-  console.log(data[0]);
 };
 
 const ingredientId = ref(""),

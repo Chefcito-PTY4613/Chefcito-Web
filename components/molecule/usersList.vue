@@ -52,10 +52,16 @@ async function getUsers(page = 1) {
 
   currPage.value = currentPage as number;
   pages.value = totalPages as number;
-  if(data)
-  for (const el of data) {
-    users.value.push(el);
-    await delay(80);
+  if (data) {
+    const dataLength = users.value.length
+    for (let i = 0; i < dataLength; i++) {
+      users.value.shift();
+      await delay(80);
+    }
+    for (const el of data) {
+      users.value.push(el);
+      await delay(80);
+    }
   }
 }
 function clean() {

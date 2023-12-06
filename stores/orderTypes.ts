@@ -9,8 +9,15 @@ export const orderTypesStore = defineStore("orderTypes", {
     getOrderTypes: (state) => state.orderTypes as Array<Status>,
     getOrderType: (state) => (id: string) =>
       state.orderTypes.find((type) => id === type._id),
+    getOrderTypeName: (state) => (name: string) =>
+      state.orderTypes.find((type) => name === type.name),
   },
   actions: {
+    async init() {
+      if (this.orderTypes.length === 0) {
+        await this.set();
+      }
+    },
     async set() {
       const { data, error } = await useFetch(
         `https://chefcito-back-production.up.railway.app/type/order`,

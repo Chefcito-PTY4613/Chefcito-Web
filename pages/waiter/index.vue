@@ -6,11 +6,13 @@ import { ActiveReservation, Order, Table } from "@/lib/types";
 import { transforDateTime } from "@/lib/utils.rata";
 import { orderTypesStore } from "@/stores/orderTypes";
 
-const { socket } = useSocket();
-
-const { set, getOrderTypes } = orderTypesStore();
+const { set, init, getOrderTypes } = orderTypesStore();
+init()
 const userStore = useUserStore();
 const config = useRuntimeConfig();
+
+const { socket } = useSocket();
+
 
 if (getOrderTypes.length == 0) set();
 
@@ -80,7 +82,7 @@ const changeStatus = (orderId: string, statusId: string) =>
     body: JSON.stringify({ status: statusId }),
   });
 
-socket.on("table:save", (table: Table) => {
+  socket.on("table:save", (table: Table) => {
   const indexT = tables.value.findIndex(({ _id }) => table._id === _id);
   if (table.active) {
     tables.value = [...tables.value];
@@ -132,7 +134,6 @@ onMounted(() => {
           <UiSelect
             v-model="orderStatus[order._id]"
             @select="changeStatus"
-            id="phoneCode"
           >
             <UiSelectTrigger class="w-2/5 item">
               <UiSelectValue placeholder="Estado" />
@@ -142,7 +143,7 @@ onMounted(() => {
                 <UiSelectLabel>Estado de la orden</UiSelectLabel>
                 <UiSelectItem
                   v-for="orderType in getOrderTypes"
-                  :key="orderType._id"
+                  :key="`${order._id}-${orderType._id}`"
                   :value="orderType._id"
                   @click="changeStatus(order._id, orderType._id)"
                 >

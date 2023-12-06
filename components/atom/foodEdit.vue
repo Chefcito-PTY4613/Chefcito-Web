@@ -68,12 +68,8 @@ const edit = async () => {
     formData.append("type", typeEdit.value);
   
     if (imgEdit.value) {
-      console.log("🚀 ~ file: foodEdit.vue:71 ~ edit ~ imgEdit.value:")
       formData.append("img", imgEdit.value)
     };
-
-  console.log(imgEdit.value);
-  console.log(formData);
 
   await fetch(`${config.public.backEnd}food`, {
     method: "PUT",

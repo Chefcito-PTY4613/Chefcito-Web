@@ -1,7 +1,7 @@
 import { useLocalStorage, useFetch } from "@vueuse/core";
 
 export interface IUserType {
-  _id?: string;
+  _id: string;
   name: string;
   desc: string;
 }

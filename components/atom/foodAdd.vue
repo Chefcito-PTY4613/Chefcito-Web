@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
-import { useUserStore } from "@/stores/user";
 import { bytesToMB, reduceImageResolution } from "@/lib/utils.rata";
+import { useUserStore } from "@/stores/user";
 const userStore = useUserStore();
 const { getFoodTypes, set } = foodTypesStore();
 if (getFoodTypes.length == 0) set();
@@ -67,8 +67,6 @@ const add = async () => {
   formData.append("price", `${price.value}`);
   formData.append("type", typeEdit.value);
   formData.append("img", img.value);
-
-  formData.forEach((el) => console.log(el));
 
   await fetch(`${config.public.backEnd}food`, {
     method: "POST",
